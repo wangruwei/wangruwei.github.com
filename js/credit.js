@@ -1,21 +1,6 @@
 'use strict';
 document.addEventListener('DOMContentLoaded',function(){
-	//map
-	var map = new AMap.Map('container',{
-        zoom: 11,
-        center: [116.4228,39.988829],
-        mapStyle: 'light'
-    });
-    var icon = new AMap.Icon({
-            image : 'img/loca.png',
-            size : new AMap.Size(42,42)
-    });
-    var marker = new AMap.Marker({
-            icon : icon,
-            position : [116.4228,39.988829],
-            offset : new AMap.Pixel(-21,-21),
-            map : map
-    });
+	
 	//contact me left
 	;(function(){
 		var oCon = document.querySelector('.my-info');
@@ -32,5 +17,23 @@ document.addEventListener('DOMContentLoaded',function(){
 			})(i);
 		}
 	})();
-	
+	//animation
+	;(function(){
+		var aEle = document.getElementsByClassName('objs');
+		window.addEventListener('load',fnAnimate,false);
+		window.addEventListener('resize',fnAnimate,false);
+		window.addEventListener('scroll',fnAnimate,false);
+		function fnAnimate(){
+			var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+			var clientHeight = document.documentElement.clientHeight||document.body.clientHeight;
+			var scrollBottom = scrollTop+clientHeight;
+			for(var i=0;i<aEle.length;i++){
+				var iTop = getOffset(aEle[i]).y;
+				console.log(iTop+'==='+scrollBottom);
+				if(iTop<=scrollBottom){
+					addClass(aEle[i],'animated');
+				}
+			}
+		}
+	})();
 },false);
