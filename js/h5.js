@@ -638,6 +638,9 @@ window.onload = function() {
                     var aBar = oBox.children;
                     for (var i = 0; i < aBar.length; i++) {
                         aBar[i].style.WebkitTransition = "0.5s all ease";
+                        aBar[i].style.MozTransition = "0.5s all ease";
+                        aBar[i].style.msTransition = "0.5s all ease";
+                        aBar[i].style.transition = "0.5s all ease";
                         (function(index) {
                             setTimeout(function() {
                                 if (index >= Math.floor(C / 2)) {
