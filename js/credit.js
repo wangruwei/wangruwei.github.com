@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded',function(){
 			var scrollBottom = scrollTop+clientHeight;
 			for(var i=0;i<aEle.length;i++){
 				var iTop = getOffset(aEle[i]).y;
-				console.log(iTop+'==='+scrollBottom);
 				if(iTop<=scrollBottom){
 					addClass(aEle[i],'animated');
 				}

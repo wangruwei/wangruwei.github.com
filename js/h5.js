@@ -324,4 +324,60 @@ window.onload = function(){
 			return false;
 		};
 	})();
+        ;(function(){
+        var oScroll = document.getElementById('scrollTop');
+        var oL2 = oScroll.children[0];
+        var oL3 = oScroll.children[1];
+        var oL4 = oScroll.children[2];
+        var bOk = false;
+        var timer = null;
+        function fnScrollTop(ev){
+            if(bOk)return;
+            var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+            if(scrollTop>=100){
+                oScroll.style.opacity = 1;
+            }else{
+                oScroll.style.opacity = 0;
+            }
+        }
+        window.addEventListener('scroll',fnScrollTop,false);
+        window.addEventListener('load',fnScrollTop,false);
+        window.addEventListener('resize',fnScrollTop,false);
+        oScroll.onclick = function(){
+            addClass(this,'on');
+            bOk = true;
+            oScroll.style.WebkitTransition = '0.5s all ease-in';
+            setTimeout(function(){
+                oScroll.style.WebkitTransform = 'translateY(-3000px)';
+            },300);
+            //运动核心
+            var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+            var clientHeight = document.documentElement.clientHeight||document.body.clientHeight;
+            var start = scrollTop;
+            var iTarget = 0;
+            var dis = iTarget - start;
+            var time = 1000;
+            var count = Math.floor(1000/30);
+            var n = 0;
+            timer = setInterval(function(){
+                n++;
+                var a = 1-n/count;
+                var cur = start+dis*(1-Math.pow(a,3));
+                document.documentElement.scrollTop=document.body.scrollTop = cur;
+                console.log(bOk);
+                if(n==count){
+                    clearInterval(timer);
+                    removeClass(oScroll,'on'); 
+                    oScroll.style.WebkitTransition = '';
+                    oScroll.style.WebkitTransform = 'translateY(0)';
+                    oScroll.style.opacity = 0;
+                    bOk = false;
+                }
+            },30);
+        };
+        var oTT = document.querySelector('.toptop');
+        oTT.onclick = function(){
+            document.documentElement.scrollTop = document.body.scrollTop = 0;
+        };
+    })();
 };
