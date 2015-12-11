@@ -151,7 +151,7 @@ window.onload = function(){
             if(ev.keyCode==39)bRight = false;
             if(ev.keyCode==40)bBottom = false;
         };
-        document.addEventListener('mousedown',fnDown3d,false);
+        oBox3d.addEventListener('mousedown',fnDown3d,false);
         function fnDown3d(ev){
             var oldX = ev.pageX-x;
             var oldY = ev.pageY-y;
@@ -169,6 +169,7 @@ window.onload = function(){
             	document.removeEventListener('mousemove',fnMove3d,false);
             	document.removeEventListener('mouseup',fnUp3d,false);
             };
+            ev.preventDefault();
             return false;
         };
 	})();
@@ -324,7 +325,7 @@ window.onload = function(){
 			return false;
 		};
 	})();
-        ;(function(){
+    ;(function(){
         var oScroll = document.getElementById('scrollTop');
         var oL2 = oScroll.children[0];
         var oL3 = oScroll.children[1];
@@ -379,5 +380,266 @@ window.onload = function(){
         oTT.onclick = function(){
             document.documentElement.scrollTop = document.body.scrollTop = 0;
         };
+    })();
+    ;(function(){
+        var oBox = document.querySelector('#boom-box');
+        var oBox2 = document.querySelector('#boom-box2');
+        var oBtn1 = oBox2.children[0];
+        var oBtn2 = oBox2.children[1];
+        var oBtn3 = oBox2.children[2];
+        var oBtn4 = oBox2.children[3];
+        var oBtn5 = oBox2.children[4];
+        var aS = oBox.getElementsByTagName('span');
+        var R = 4;
+        var C = 7;
+        var bOk = true;
+        var arr = ['b1.jpg','b2.jpg','b3.jpg'];
+        var iNow = 0;
+        function createBoom(iNow){
+            for(var i=0;i<R;i++){
+                for(var j=0;j<C;j++){
+                    var oS = document.createElement('span');
+                    oS.style.width = oBox.offsetWidth/C+'px';
+                    oS.style.height = oBox.offsetHeight/R+'px';
+                    oBox.appendChild(oS);
+                    oS.style.left = j*oBox.offsetWidth/C+'px';
+                    oS.style.top = i*oBox.offsetHeight/R+'px';
+                    oS.style.background = 'url(img/'+arr[iNow]+') -'+oS.offsetLeft+'px -'+oS.offsetTop+'px';
+                    oS.style.WebkitTransform = 'perspective(800px) rotateX(0) rotateY(0) translateX(0) translateY(0)';
+                    oS.R = i;
+                    oS.C = j;
+                }
+            }
+        }
+        oBtn1.onclick = function(){
+            if(bOk){
+                bOk = false;
+                createBoom(iNow%arr.length);
+                oBox.style.background = 'url(img/'+arr[(iNow+1)%arr.length]+')';
+                var divX = oBox.offsetWidth/2;
+                var divY = oBox.offsetHeight/2;
+                for(var i=0;i<aS.length;i++){
+                    var sX = aS[i].offsetLeft+aS[i].offsetWidth/2;
+                    var sY = aS[i].offsetTop+aS[i].offsetHeight/2;
+                    var disX = (sX-divX)*2*Math.random();
+                    var disY = (sY-divY)*2*Math.random();
+                    aS[i].style.WebkitTransition = '0.5s all ease';
+                    aS[i].style.WebkitTransform = 'perspective(800px) translateX('+disX+'px) translateY('+disY+'px) rotateX('+(Math.random()*360+180)+'deg) rotateY('+(Math.random()*360+180)+'deg) scale('+(Math.random()*2)+','+(Math.random()*2)+')';
+                    aS[i].style.opacity = 0;
+                }
+                setTimeout(function(){
+                    oBox.innerHTML = '';
+                    iNow++;
+                    bOk = true;
+                },500);
+            }
+        };
+        oBtn2.onclick = function(){
+            if(bOk){
+                bOk = false;
+                createFilp(iNow%arr.length);
+                oBox.style.background = 'none';
+                //url(img/'+arr[(iNow+1)%arr.length]+')
+                for(var i=0;i<aS.length;i++){
+                    (function(index){
+                        setTimeout(function(){
+                            aS[index].style.WebkitTransition = '0.5s all ease';
+                            aS[index].style.WebkitTransform = 'perspective(800px) rotateY(180deg)';
+                        },(aS[i].C+aS[i].R)*100);
+                    })(i);
+                }
+                setTimeout(function(){
+                    oBox.style.background = 'url(img/'+arr[(iNow+1)%arr.length]+')';
+                    oBox.innerHTML = '';
+                    iNow++;
+                    bOk = true;
+                },(aS[aS.length-1].C+aS[aS.length-1].R)*100+500);
+            }
+        };
+        function createFilp(iNow){
+            for(var i=0;i<R;i++){
+                for(var j=0;j<C;j++){
+                    var oS = document.createElement('span');
+                    oS.style.width = oBox.offsetWidth/C+'px';
+                    oS.style.height = oBox.offsetHeight/R+'px';
+                    oBox.appendChild(oS);
+                    oS.style.left = j*oBox.offsetWidth/C+'px';
+                    oS.style.top = i*oBox.offsetHeight/R+'px';
+                    oS.style.background = 'url(img/'+arr[iNow]+') -'+oS.offsetLeft+'px -'+oS.offsetTop+'px';
+                    oS.style.WebkitTransform = 'perspective(800px) rotateY(0)';
+                    oS.R = i;
+                    oS.C = j;
+                    var oBack = document.createElement('em');
+                    oS.appendChild(oBack);
+                    oBack.style.WebkitTransform = 'translateZ(-1px) scale(-1,1)';
+                    oBack.style.background = 'url(img/'+arr[(iNow+1)%arr.length]+') -'+oS.offsetLeft+'px -'+oS.offsetTop+'px';
+                    var oFront = document.createElement('em');
+                    oS.appendChild(oFront);
+                    oFront.style.WebkitTransform = 'translateZ(1px)';
+                    oFront.style.background = 'url(img/'+arr[iNow]+') -'+oS.offsetLeft+'px -'+oS.offsetTop+'px';
+                }
+            }
+        }
+        oBtn3.onclick = function(){
+            if(bOk){
+                bOk = false;
+                createTurn(iNow%arr.length);
+                var oPage = oBox.children[0];
+                oPage.style.WebkitTransform = 'perspective(800px) rotateY(-180deg)';
+                var oShadow = oBox.children[1];
+                oShadow.style.opacity = '0'
+                setTimeout(function(){
+                    oBox.style.background = 'url(img/'+arr[(iNow+1)%arr.length]+')';
+                    oBox.innerHTML = '';
+                    iNow++;
+                    bOk = true;
+                },1000);
+            }
+        };
+        function createTurn(iNow){
+            var oPage = document.createElement('div');
+            oPage.className = 'page-boom';
+            var oShadow = document.createElement('div');
+            oShadow.className = 'shadow';
+            var oBottom = document.createElement('div');
+            oBottom.className = 'bottom';
+            var oFront = document.createElement('span');
+            oFront.style.WebkitTransform = 'translateZ(1px)';
+            oPage.appendChild(oFront);
+            oFront.style.background = 'url(img/'+arr[iNow]+') -'+oBox.offsetWidth/2+'px 0';
+            var oBack = document.createElement('span');
+            oBack.style.WebkitTransform = 'translateZ(-1px) scale(-1,1)';
+            oPage.appendChild(oBack);
+            oBack.style.background = 'url(img/'+arr[(iNow+1)%arr.length]+')';
+            oBox.appendChild(oPage);
+            var oShadow = document.createElement('div');
+            oBox.appendChild(oShadow);
+            oShadow.className = 'shadow';
+            var oBottom = document.createElement('div');
+            oBottom.style.background = 'url(img/'+arr[(iNow+1)%arr.length]+') -'+oBox.offsetWidth/2+'px 0';
+            oBox.appendChild(oBottom);
+        }
+        oBtn4.onclick = function(){
+            if(bOk){
+                bOk = false;
+                var oCube = createCube(iNow%arr.length);
+                oBox.style.background = 'none';
+                setTimeout(function(){
+                    oCube.style.WebkitTransform = 'perspective(800px) translateZ(-350px) rotateY(-90deg)';
+                },10);
+                setTimeout(function(){
+                    oBox.style.background = 'url(img/'+arr[(iNow+1)%arr.length]+')';
+                    oBox.innerHTML = '';
+                    iNow++;
+                    bOk = true;
+                },1000);
+            }
+        };
+        function createCube(iNow){
+            // oBox.innerHTML = '<div class="cubeBox">'+
+            //                    '<div class="left"></div>'+
+            //                    '<div class="right"></div>'+
+            //               '</div>';
+            var oCube = document.createElement('div');
+            oCube.className = 'cubeBox';
+            oBox.appendChild(oCube);
+            var oLeft = document.createElement('div');
+            oLeft.className = 'left';
+            oCube.appendChild(oLeft);
+            var oRight = document.createElement('div');
+            oRight.className = 'right';
+            oCube.appendChild(oRight);
+            oLeft.style.background = 'url(img/'+arr[iNow]+')';
+            oRight.style.background = 'url(img/'+arr[(iNow+1)%arr.length]+')';
+            oLeft.style.WebkitTransform = 'translateZ(350px)';
+            oRight.style.WebkitTransform = 'translateX(350px) rotateY(90deg)';
+            return oCube;
+        }
+        oBtn5.onclick = function(){
+            if(bOk){
+                bOk = false;
+                createBar(iNow);
+                oBox.style.background = 'none';
+                setTimeout(function(){
+                    //oBox.style.WebkitTransformStyle = 'preserve-3d';
+                    var aBar = oBox.children;
+                    for(var i=0;i<aBar.length;i++){
+                        aBar[i].style.WebkitTransition = '0.5s all ease';
+                        (function(index){
+                            setTimeout(function(){
+                                if(index>=Math.floor(C/2))aBar[index].style.zIndex = (10-index);
+                                aBar[index].style.WebkitTransformOrigin = (350-(index*100+50))+'px center';
+                                aBar[index].style.WebkitTransform = 'perspective(800px) translateZ(-200px) rotateX(-90deg)';
+                            },100*index);
+                        })(i);
+                    }
+                    setTimeout(function(){
+                        oBox.style.background = 'url(img/'+arr[(iNow+1)%arr.length]+')';
+                        oBox.innerHTML = '';
+                        oBox.style.WebkitTransformStyle = 'flat';
+                        iNow++;
+                        bOk = true;
+                    },1000);
+                },100);
+            }
+        };
+        function createBar(iNow){
+            for(var i=0;i<C;i++){
+                var oBar = document.createElement('div');
+                oBar.className = 'sCube';
+                oBar.innerHTML = '<span class="first"></span><span class="second"></span><span class="bLeft"></span><span class="bRight"></span>';
+                oBar.style.position = 'absolute';
+                oBar.style.WebkitTransformStyle = 'preserve-3d';
+                oBar.style.WebkitTransform = 'perspective(800px) translateZ(-200px) rotateX(0)';
+                oBar.style.width = oBox.offsetWidth/C+'px';
+                oBar.style.left = oBox.offsetWidth/C*i+'px';
+                oBar.style.top = 0;
+                oBar.style.height = '100%';
+                var oFirst = oBar.children[0];
+                oFirst.style.background = 'url(img/'+arr[iNow%arr.length]+') -'+oBox.offsetWidth/C*i+'px';
+                var oSecond = oBar.children[1];
+                oSecond.style.background = 'url(img/'+arr[(iNow+1)%arr.length]+') -'+oBox.offsetWidth/C*i+'px';
+                var oLeft = oBar.children[2];
+                oLeft.style.width = '400px';
+                oLeft.style.height = '400px';
+                oLeft.style.left = '50%';
+                oLeft.style.marginLeft = '-200px';
+                oLeft.style.WebkitTransform = 'translateX(-50px) rotateY(-90deg)';
+                var oRight = oBar.children[3];
+                oRight.style.width = '400px';
+                oRight.style.height = '400px';
+                oRight.style.left = '50%';
+                oRight.style.marginLeft = '-200px';
+                oRight.style.WebkitTransform = 'translateX(50px) rotateY(-90deg)';
+                oLeft.style.background = '#ccc';
+                oRight.style.background = '#ccc';
+                oBox.appendChild(oBar);
+            }
+        }
+    })();
+    ;(function(){
+        var aBtn = document.getElementsByClassName('ripple-button');
+        for(var i=0;i<aBtn.length;i++){
+            (function(index){
+                aBtn[index].addEventListener('click',function(ev){
+                    var oDiv = aBtn[index].children[0];
+                    var oSon = oDiv.children[0];
+                    var x = ev.pageX-aBtn[index].offsetLeft;
+                    var y = ev.pageY-aBtn[index].offsetTop;
+                    oSon.style.left = x+'px';
+                    oSon.style.top = y+'px';
+                    addClass(oDiv,'is-active');
+                    oDiv.addEventListener('animationend',function(ev){
+                        removeClass(oDiv,'is-active');
+                    },false);
+                    oDiv.addEventListener('webkitAnimationEnd',function(ev){
+                        removeClass(oDiv,'is-active');
+                    },false);
+                    oDiv.addEventListener('MSAnimationEnd',function(ev){
+                        removeClass(oDiv,'is-active');
+                    },false);
+                },false);
+            })(i);
+        }
     })();
 };
