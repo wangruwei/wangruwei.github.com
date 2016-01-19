@@ -1,5 +1,11 @@
 "use strict";
 window.onload = function() {
+    var oImgB1 = new Image();
+    oImgB1.src = '../img/b1.jpg';
+    var oImgB2 = new Image();
+    oImgB1.src = '../img/b2.jpg';
+    var oImgB3 = new Image();
+    oImgB1.src = '../img/b3.jpg';
     (function() {
         var oClock = document.querySelector("#clock");
         var aImg = oClock.getElementsByTagName("img");
