@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 		var scale = oMe.offsetTop - scrollTop;
 		oMe.style.backgroundPosition = "center " + (scale / 3 - 200) + "px";
-		oSha.style.opacity = 0.8 * (1 - scale / 200)
+		oSha.style.opacity = 0.8 * (1 - scale / 200);
 	};
 	(function() {
 		var oUl = oMe.getElementsByTagName("ul")[0];
@@ -36,10 +36,10 @@ document.addEventListener("DOMContentLoaded", function() {
 				aBtn[i].onmouseover = function() {
 					for (var i = 0; i < aBtn.length; i++) {
 						aBtn[i].className = "";
-						aLi[i].style.opacity = 0
+						aLi[i].style.opacity = 0;
 					}
 					aBtn[index].className = "on";
-					aLi[index].style.opacity = 1
+					aLi[index].style.opacity = 1;
 				}
 			})(i)
 		}
