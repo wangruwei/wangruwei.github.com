@@ -1,0 +1,29 @@
+{
+  "name": "wangruwei.github.com",
+  "version": "1.0.0",
+  "description": "this is my personal website https://wangruwei.github.io",
+  "main": "bundle.js",
+  "dependencies": {
+    "css-loader": "^0.23.1",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.1"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "path-file-loader": "^1.0.0",
+    "style-loader": "^0.13.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangruwei/wangruwei.github.com.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wangruwei/wangruwei.github.com/issues"
+  },
+  "homepage": "https://github.com/wangruwei/wangruwei.github.com#readme"
+}
