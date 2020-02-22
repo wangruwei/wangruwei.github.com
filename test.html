@@ -27,7 +27,9 @@
       onSuccess : function(result) {
          alert(JSON.stringify(result));
       },
-      onFail : function(err) {}
+      onFail : function(err) {
+        alert(JSON.stringify(err));
+      }
     });
   }
 
@@ -37,6 +39,7 @@
          alert(JSON.stringify(result));
       },
       onFail: function (err) {
+        alert(JSON.stringify(err));
       }
     });
   }
