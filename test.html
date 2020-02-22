@@ -13,6 +13,8 @@
 <body>
   <noscript><strong>请启用 javascript</strong></noscript>
   <div id="app"></div>
+  <button id="btn1">查询位置</button>
+  <button id="btn1">唤起地图</button>
   <!-- built files will be auto injected -->
 </body>
 <script>
@@ -31,14 +33,15 @@
 
   function mapLocate() {
     dd.biz.map.locate({
-      latitude: 39.903578, // 纬度，非必须
-      longitude: 116.473565, // 经度，非必须
       onSuccess: function (result) {
          alert(JSON.stringify(result));
       },
       onFail: function (err) {
       }
-  });
+    });
   }
+  
+  document.getElementById('btn1').onclick = geoGet();
+  document.getElementById('btn2').onclick = mapLocate();
 </script>
 </html>
