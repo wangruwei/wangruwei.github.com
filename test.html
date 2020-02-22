@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <meta http-equiv="Cache-control" content="no-store">
+  <link rel="icon" href="/public/favicon.ico">
+  <script src="//g.alicdn.com/dingding/dingtalk-jsapi/2.4.8/dingtalk.internal.js" id="ddsdk"></script>
+  <title></title>
+</head>
+<body>
+  <noscript><strong>请启用 javascript</strong></noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+<script>
+  function geoGet() {
+    dd.device.geolocation.get({
+      targetAccuracy : 200,
+      coordinate : 1,
+      withReGeocode : true,
+      useCache:true, //默认是true，如果需要频繁获取地理位置，请设置false
+      onSuccess : function(result) {
+         alert(JSON.stringify(result));
+      },
+      onFail : function(err) {}
+    });
+  }
+
+  function mapLocate() {
+    dd.biz.map.locate({
+      latitude: 39.903578, // 纬度，非必须
+      longitude: 116.473565, // 经度，非必须
+      onSuccess: function (result) {
+         alert(JSON.stringify(result));
+      },
+      onFail: function (err) {
+      }
+  });
+  }
+</script>
+</html>
